@@ -15,6 +15,7 @@ import Hero           from "@/sections/hero/Hero";
 import TrackingLine   from "@/components/hero/TrackingLine";
 import EvidenceBoard from "@/sections/evidence-board/EvidenceBoard";
 import SubjectProfile from "@/sections/subject-profile/SubjectProfile";
+import Certifications from "@/sections/certifications/Certifications";
 import Skills from "@/sections/skills/Skills";
 import Contact from "@/sections/contact/Contact";
 
@@ -39,6 +40,7 @@ export default function Home() {
           <EvidenceBoard />
         </div>
         <SubjectProfile />
+        <Certifications />
         {/* <Skills /> */}
         <Contact />
       </main>
