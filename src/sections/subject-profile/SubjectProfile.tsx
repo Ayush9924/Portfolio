@@ -114,9 +114,12 @@ export default function SubjectProfile() {
                 marginBottom: "4px",
               }}
             >
-              <p className="text-[10px] font-mono text-[#ff2b2b]/30 tracking-[0.2em] select-none text-center">
-                [PHOTO REDACTED]
-              </p>
+              <img 
+                src="/profile.jpeg" 
+                alt="Subject Photo" 
+                className="absolute inset-0 w-full h-full object-cover grayscale opacity-80 mix-blend-luminosity brightness-110 contrast-125" 
+                style={{ objectPosition: "center 20%" }} 
+              />
 
               {/* Traveling scan line */}
               <div
@@ -380,8 +383,8 @@ export default function SubjectProfile() {
                     strokeLinecap="round"
                     strokeDasharray="25 75"
                     style={{
-                      filter: "drop-shadow(0 0 3px rgba(255,43,43,0.8))",
                       animation: "triangleTrace 2.4s linear infinite",
+                      willChange: "stroke-dashoffset",
                     }}
                   />
                 </svg>
