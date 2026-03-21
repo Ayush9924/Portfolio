@@ -36,11 +36,24 @@ export default function Hero() {
         .fromTo(rightRef.current, { opacity: 0, x: 16 }, { opacity: 1, x: 0, duration: 0.5 }, "<")
         .fromTo(bottomRef.current, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.4 }, "-=0.2");
 
+      // Random flickering effect
       gsap.timeline({ repeat: -1, repeatDelay: 5, delay: 2 })
         .to(scanRef.current, { opacity: 0.15, duration: 0.06 })
         .to(scanRef.current, { opacity: 0.7, duration: 0.06 })
         .to(scanRef.current, { opacity: 0.12, duration: 0.04 })
         .to(scanRef.current, { opacity: 0.65, duration: 0.08 });
+
+      // Scanning travel from top to bottom
+      gsap.fromTo(
+        scanRef.current,
+        { top: "0%" },
+        {
+          top: "100%",
+          duration: 8,
+          ease: "none",
+          repeat: -1,
+        }
+      );
 
     }, wrapRef);
 
@@ -74,7 +87,7 @@ export default function Hero() {
 
       <div
         ref={scanRef}
-        className="pointer-events-none absolute left-0 right-0 top-1/2 -translate-y-1/2"
+        className="pointer-events-none absolute left-0 right-0 top-0 z-20"
         style={{
           height: "1px",
           background: "linear-gradient(to right, transparent 0%, rgba(255,43,43,0.06) 12%, rgba(255,43,43,0.65) 30%, rgba(255,43,43,0.65) 70%, rgba(255,43,43,0.06) 88%, transparent 100%)",
@@ -182,10 +195,10 @@ export default function Hero() {
         >
 
           <h1
+            className="text-[clamp(96px,21vh,320px)] max-md:text-[clamp(44px,14vw,90px)]"
             style={{
               fontFamily: "var(--font-playfair), Georgia, serif",
               fontWeight: 900,
-              fontSize: "clamp(96px,21vh,320px)",
               color: "#e8e8e8",
               textTransform: "uppercase",
               textShadow: "0 2px 40px rgba(255,255,255,0.08),0 0 80px rgba(255,43,43,0.06)"
@@ -195,10 +208,10 @@ export default function Hero() {
           </h1>
 
           <h1
+            className="text-[clamp(96px,21vh,320px)] max-md:text-[clamp(44px,14vw,90px)]"
             style={{
               fontFamily: "var(--font-playfair), Georgia, serif",
               fontWeight: 900,
-              fontSize: "clamp(96px,21vh,320px)",
               color: "#e8e8e8",
               textTransform: "uppercase",
               textShadow: "0 2px 40px rgba(255,255,255,0.08),0 0 80px rgba(255,43,43,0.06)"
