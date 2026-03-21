@@ -1,0 +1,27 @@
+/**
+ * styles/tokens.css
+ *
+ * Component-scoped CSS supplements that do not belong in globals.css.
+ * Import this file inside specific components if they need
+ * extended token overrides or CSS @layer rules.
+ *
+ * globals.css owns:  design tokens, body, resets, typography utils
+ * tokens.css owns:   extended motion tokens, component-level overrides
+ *
+ * Example usage inside a component:
+ *   import "@/styles/tokens.css";
+ */
+
+/* ── Extended motion tokens ───────────────────────────────────────────── */
+:root {
+  /* Easing curves for GSAP — mirror these in JS as string values */
+  --ease-out-expo:   cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-quad: cubic-bezier(0.45, 0, 0.55, 1);
+  --ease-glitch:     steps(4, end);
+
+  /* Timing */
+  --duration-fast:   150ms;
+  --duration-base:   300ms;
+  --duration-slow:   600ms;
+  --duration-cinema: 1200ms;
+}

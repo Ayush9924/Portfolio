@@ -1,26 +1,254 @@
 @import "tailwindcss";
 
+/* ================================================================
+   DESIGN TOKENS  —  single source of truth for the entire UI
+   ================================================================ */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Base palette */
+  --black:        #000000;
+  --surface:      #030505;
+
+  /* Cyber red — the only accent color */
+  --red:          #ff2b2b;
+  --red-80:       rgba(255, 43, 43, 0.80);
+  --red-60:       rgba(255, 43, 43, 0.60);
+  --red-30:       rgba(255, 43, 43, 0.30);
+  --red-20:       rgba(255, 43, 43, 0.20);
+  --red-12:       rgba(255, 43, 43, 0.12);
+  --red-06:       rgba(255, 43, 43, 0.06);
+  --red-03:       rgba(255, 43, 43, 0.03);
+
+  /* Grid */
+  --grid-size:    40px;
+
+  /* Font stack — Space Mono is injected by next/font as a CSS variable */
+  --font-terminal: var(--font-space-mono), "Courier New", Courier, monospace;
 }
 
+/* ================================================================
+   TAILWIND v4 THEME INTEGRATION
+   Expose tokens so Tailwind utilities (text-radar, bg-surface …)
+   are generated at build time.
+   ================================================================ */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-background: var(--black);
+  --color-foreground: var(--red);
+
+  /* Named colour scale — used as text-cyber / bg-cyber / border-cyber etc. */
+  --color-cyber:    #ff2b2b;
+
+  /* Override the built-in font-mono utility to use Space Mono */
+  --font-mono: var(--font-terminal);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ================================================================
+   RESET & BASE
+   ================================================================ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  color-scheme: dark;
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--black);
+  color: var(--red);
+  font-family: var(--font-terminal);
+  font-size: 13px;
+  line-height: 1.7;
+  min-height: 100dvh;
+
+  /* Crosshair cursor to reinforce the intelligence-system feel */
+  cursor: crosshair;
+  overflow-x: hidden;
+
+  /* NOTE: The radar grid background-image has been moved to
+     <GridOverlay> (src/components/ui/GridOverlay.tsx) so that
+     GSAP can animate the overlay as a real DOM node during scroll
+     transitions.  CRT scanlines and vignette stay here because
+     they are purely decorative and never need animation targeting. */
 }
+
+/* ── CRT scanline shader —————————————————————————————————————
+   A repeating-linear-gradient of alternating transparent and
+   near-black stripes sits in a fixed layer above everything.
+   pointer-events: none ensures it never blocks interaction.
+─────────────────────────────────────────────────────────── */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent 0px,
+    transparent 3px,
+    rgba(0, 0, 0, 0.06) 3px,
+    rgba(0, 0, 0, 0.06) 4px
+  );
+  pointer-events: none;
+  z-index: 9998;
+}
+
+/* ── Vignette — darkens edges to focus attention on centre ─── */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 55%,
+    rgba(0, 0, 0, 0.65) 100%
+  );
+  pointer-events: none;
+  z-index: 9997;
+}
+
+/* ================================================================
+   SELECTION
+   ================================================================ */
+::selection {
+  background-color: var(--red);
+  color: var(--black);
+}
+
+/* ================================================================
+   SCROLLBAR
+   ================================================================ */
+::-webkit-scrollbar         { width: 3px; height: 3px; }
+::-webkit-scrollbar-track   { background: var(--black); }
+::-webkit-scrollbar-thumb   { background: var(--red-30); }
+::-webkit-scrollbar-thumb:hover { background: var(--red-60); }
+
+/* ================================================================
+   TYPOGRAPHY UTILITIES
+
+   These are plain CSS classes, not Tailwind utilities.
+   They exist alongside Tailwind classes without conflict.
+   ================================================================ */
+
+/* Layered glow makes headline text look phosphor-lit */
+.text-glow {
+  text-shadow:
+    0 0 8px  rgba(255, 43, 43, 0.95),
+    0 0 28px rgba(255, 43, 43, 0.45),
+    0 0 60px rgba(255, 43, 43, 0.18);
+}
+
+/* Graduated opacity hierarchy for information density */
+.text-dim   { color: var(--red-60); } /* secondary info  */
+.text-muted { color: var(--red-30); } /* labels / labels */
+.text-ghost { color: var(--red-12); } /* decorative       */
+
+/* ================================================================
+   TERMINAL PANEL COMPONENT
+
+   A bordered content card that mimics a terminal window.
+   Uses ::before for a subtle double-border inset and
+   ::after for angled corner accents.
+   ================================================================ */
+.terminal-panel {
+  position: relative;
+  border: 1px solid var(--red-30);
+  background-color: var(--red-03);
+}
+
+/* Double-border inset — gives the panel depth */
+.terminal-panel::before {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  border: 1px solid var(--red-06);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Top-left corner accent bracket */
+.terminal-panel::after {
+  content: "";
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  width: 14px;
+  height: 14px;
+  border-top:  2px solid var(--red);
+  border-left: 2px solid var(--red);
+}
+
+/* ================================================================
+   ANIMATIONS
+   ================================================================ */
+
+/* Blinking block cursor */
+@keyframes blink {
+  0%, 49.9% { opacity: 1; }
+  50%, 100%  { opacity: 0; }
+}
+
+/* Subtle CRT-style phosphor flicker on the main headline */
+@keyframes flicker {
+  0%    { opacity: 1; }
+  93%   { opacity: 1; }
+  93.5% { opacity: 0.72; }
+  94%   { opacity: 1; }
+  97%   { opacity: 0.88; }
+  97.5% { opacity: 1; }
+  100%  { opacity: 1; }
+}
+
+/* ================================================================
+   REUSABLE COMPONENT CLASSES
+   ================================================================ */
+
+/* Animated block cursor — appended after command prompts */
+.cursor-block {
+  display: inline-block;
+  width: 0.55ch;
+  height: 1.05em;
+  background-color: var(--red);
+  vertical-align: text-bottom;
+  animation: blink 1.1s step-end infinite;
+}
+
+/* Applied to the main headline for the phosphor-flicker effect */
+.terminal-flicker {
+  animation: flicker 12s ease-in-out infinite;
+}
+
+/* Thin horizontal rule to separate terminal sections */
+.term-divider {
+  border: none;
+  border-top: 1px solid var(--red-12);
+  margin: 1.25rem 0;
+}
+
+/* Rotating red sweep line for DANGER: HIGH radar panel */
+@keyframes dangerSweep {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* Blinking ! for the DANGER: HIGH panel */
+@keyframes dangerBlink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+/* Horizontal scan line sweeping vertically over the DANGER triangle */
+@keyframes triangleScan {
+  0%   { top: -5%; opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { top: 105%; opacity: 0; }
+}
+
+/* Red segment tracing around the triangle perimeter */
+@keyframes triangleTrace {
+  from { stroke-dashoffset: 0; }
+  to   { stroke-dashoffset: -100; }
+}
+
