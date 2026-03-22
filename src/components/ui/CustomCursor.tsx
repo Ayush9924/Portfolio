@@ -73,15 +73,15 @@ export default function CustomCursor() {
       {/* Container physically mapped by GSAP */}
       <div 
         ref={cursorRef} 
-        className="absolute top-0 left-0 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center w-[12px] h-[12px] border border-white/10 rounded-full"
+        className="absolute top-0 left-0 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center w-[20px] h-[20px] border border-white/20 rounded-full"
       >
         {/* Central targeting dot */}
-        <div className="w-[2px] h-[2px] bg-[#ff2b2b] rounded-full shadow-[0_0_8px_#ff2b2b]" />
+        <div className="w-[4px] h-[4px] bg-[#ff2b2b] rounded-full shadow-[0_0_8px_#ff2b2b]" />
 
         {/* Expanding targeting brackets [   ] for hover interaction */}
         <div 
           ref={bracketsRef} 
-          className="absolute inset-0 flex items-center justify-between opacity-0 scale-75 text-[#ff2b2b] text-[10px] font-mono tracking-widest pointer-events-none w-[32px] h-[32px] left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+          className="absolute inset-0 flex items-center justify-between opacity-0 scale-75 text-[#ff2b2b] text-[12px] font-mono tracking-widest pointer-events-none w-[44px] h-[44px] left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
         >
           <span className="leading-none select-none">[</span>
           <span className="leading-none select-none">]</span>

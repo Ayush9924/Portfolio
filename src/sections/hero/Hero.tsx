@@ -30,8 +30,16 @@ export default function Hero() {
       // Create high-performance tracking logic for mouse parallax
       const xToBg = gsap.quickTo(".parallax-bg", "x", { duration: 0.8, ease: "power3.out" });
       const yToBg = gsap.quickTo(".parallax-bg", "y", { duration: 0.8, ease: "power3.out" });
-      const xToText = gsap.quickTo(titleRef.current, "x", { duration: 1.2, ease: "power3.out" });
-      const yToText = gsap.quickTo(titleRef.current, "y", { duration: 1.2, ease: "power3.out" });
+      
+      const posters = gsap.utils.toArray<HTMLElement>(".floating-poster");
+      const posterTrackers = posters.map(el => {
+         const speed = parseFloat(el.getAttribute("data-speed") || "1");
+         return {
+           quickX: gsap.quickTo(el, "x", { duration: 1.5, ease: "power4.out" }),
+           quickY: gsap.quickTo(el, "y", { duration: 1.5, ease: "power4.out" }),
+           speed
+         };
+      });
 
       const handleMouseMove = (e: MouseEvent) => {
         if (!wrapRef.current) return;
@@ -39,16 +47,21 @@ export default function Hero() {
         // Calculate normalized offset from center (-1 to 1)
         const x = (e.clientX - left - width / 2) / (width / 2);
         const y = (e.clientY - top - height / 2) / (height / 2);
+        
         xToBg(x * -20);
         yToBg(y * -20);
-        xToText(x * 15);
-        yToText(y * 15);
+        
+        posterTrackers.forEach(p => {
+           p.quickX(x * p.speed);
+           p.quickY(y * p.speed);
+        });
       };
 
       window.addEventListener("mousemove", handleMouseMove);
 
       tl
-        .fromTo(scanRef.current, { scaleX: 0 }, { scaleX: 1, duration: 0.9, transformOrigin: "left center" })
+        .fromTo(".floating-poster", { opacity: 0, scale: 0.95, y: 40 }, { opacity: 1, scale: 1, y: 0, duration: 1.4, stagger: 0.15, ease: "power3.out" })
+        .fromTo(scanRef.current, { scaleX: 0 }, { scaleX: 1, duration: 0.9, transformOrigin: "left center" }, "-=1")
         .fromTo(badgeRef.current, { opacity: 0, y: -10 }, { opacity: 1, y: 0, duration: 0.5 }, "-=0.4")
         .fromTo(".name-char", { opacity: 0, y: 24, rotationX: 90 }, { opacity: 1, y: 0, rotationX: 0, duration: 0.4, stagger: 0.05, ease: "back.out(1.7)" }, "-=0.3")
         .fromTo(descRef.current, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.5 }, "-=0.3")
@@ -103,6 +116,38 @@ export default function Hero() {
           opacity: 0.6
         }}
       />
+
+      {/* Floating Posters */}
+      <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
+        {/* Poster 1 (Top Right) */}
+        <div 
+          className="floating-poster absolute hidden md:block opacity-0"
+          data-speed="-70"
+          style={{ top: "12%", right: "12%", willChange: "transform" }}
+        >
+          <div className="relative w-48 h-64 border border-white/5 p-1.5 shadow-[0_4px_30px_rgba(255,43,43,0.04)]" style={{ background: "rgba(10,5,5,0.7)", transform: "rotate(4deg)", filter: "sepia(1) hue-rotate(-50deg) saturate(3)" }}>
+             {/* Thumbnail logic if needed, otherwise raw aesthetic block */}
+             <div className="w-full h-full border border-white/10 opacity-60" style={{ background: "repeating-linear-gradient(45deg, rgba(255,43,43,0.05) 0, rgba(255,43,43,0.05) 1px, transparent 1px, transparent 4px)" }} />
+             <div className="absolute -bottom-6 right-0 font-mono text-[9px] tracking-[0.3em] text-[#ff2b2b]/40">
+               EVIDENCE_A.jpg
+             </div>
+          </div>
+        </div>
+        
+        {/* Poster 2 (Bottom Left) */}
+        <div 
+          className="floating-poster absolute hidden md:block opacity-0"
+          data-speed="-40"
+          style={{ bottom: "16%", left: "8%", willChange: "transform" }}
+        >
+          <div className="relative w-40 h-52 border border-white/5 p-1.5 shadow-[0_4px_30px_rgba(255,43,43,0.04)]" style={{ background: "rgba(10,5,5,0.7)", transform: "rotate(-6deg)", filter: "sepia(1) hue-rotate(-50deg) saturate(3)" }}>
+             <div className="w-full h-full border border-white/10 opacity-60" style={{ background: "repeating-linear-gradient(-45deg, rgba(255,43,43,0.05) 0, rgba(255,43,43,0.05) 1px, transparent 1px, transparent 4px)" }} />
+             <div className="absolute -bottom-6 left-0 font-mono text-[9px] tracking-[0.3em] text-[#ff2b2b]/40">
+               SYSTEM_DUMP.bin
+             </div>
+          </div>
+        </div>
+      </div>
 
       {/* Scan line */}
 
