@@ -125,10 +125,27 @@ export default function Hero() {
           data-speed="-70"
           style={{ top: "12%", right: "12%", willChange: "transform" }}
         >
-          <div className="relative w-48 h-64 border border-white/5 p-1.5 shadow-[0_4px_30px_rgba(255,43,43,0.04)]" style={{ background: "rgba(10,5,5,0.7)", transform: "rotate(4deg)", filter: "sepia(1) hue-rotate(-50deg) saturate(3)" }}>
-             {/* Thumbnail logic if needed, otherwise raw aesthetic block */}
-             <div className="w-full h-full border border-white/10 opacity-60" style={{ background: "repeating-linear-gradient(45deg, rgba(255,43,43,0.05) 0, rgba(255,43,43,0.05) 1px, transparent 1px, transparent 4px)" }} />
-             <div className="absolute -bottom-6 right-0 font-mono text-[9px] tracking-[0.3em] text-[#ff2b2b]/40">
+          <div className="relative w-36 h-48 border border-white/5 p-1.5 shadow-[0_4px_30px_rgba(255,43,43,0.04)]" style={{ background: "rgba(10,5,5,0.7)", transform: "rotate(4deg)", filter: "sepia(1) hue-rotate(-50deg) saturate(3)" }}>
+             {/* Content Block */}
+             <div className="w-full h-full border border-white/10 opacity-60 flex flex-col p-2 font-mono text-[6px] text-[#ff2b2b] leading-tight overflow-hidden transition-all" style={{ background: "repeating-linear-gradient(45deg, rgba(255,43,43,0.02) 0, rgba(255,43,43,0.02) 1px, transparent 1px, transparent 4px)" }}>
+                <div className="flex justify-between items-end opacity-70 mb-1 border-b border-[#ff2b2b]/30 pb-0.5">
+                  <span className="font-bold uppercase tracking-widest text-[#e8e8e8] text-[7px]">SYS_AUDIT</span>
+                  <span className="text-[6px]">v2.0</span>
+                </div>
+                <div className="flex flex-col gap-[2px] text-[6px] opacity-80 tracking-widest mt-1">
+                  <div className="flex justify-between"><span>SRC_IP:</span><span className="text-white/70">192.168.1.45</span></div>
+                  <div className="flex justify-between"><span>DST_IP:</span><span className="text-white/70">10.0.0.12</span></div>
+                  <div className="flex justify-between"><span>PORT  :</span><span className="text-white/70">443 [HTTPS]</span></div>
+                  <div className="flex justify-between"><span>STATUS:</span><span className="text-[#ff2b2b] animate-pulse">BREACHED</span></div>
+                </div>
+                <div className="mt-2 text-[5px] leading-[1.4] opacity-50 break-all font-mono">
+                  7f8c 0000 0000 0000 0000 <br/>
+                  b023 ffff 0000 8c11 0000 <br/>
+                  c8fa 0000 0000 a8f0 0000 <br/>
+                  9d3b 0000 0000 0000 0000
+                </div>
+             </div>
+             <div className="absolute -bottom-6 right-0 font-mono text-[8px] tracking-[0.3em] text-[#ff2b2b]/40">
                EVIDENCE_A.jpg
              </div>
           </div>
@@ -141,7 +158,24 @@ export default function Hero() {
           style={{ bottom: "16%", left: "8%", willChange: "transform" }}
         >
           <div className="relative w-40 h-52 border border-white/5 p-1.5 shadow-[0_4px_30px_rgba(255,43,43,0.04)]" style={{ background: "rgba(10,5,5,0.7)", transform: "rotate(-6deg)", filter: "sepia(1) hue-rotate(-50deg) saturate(3)" }}>
-             <div className="w-full h-full border border-white/10 opacity-60" style={{ background: "repeating-linear-gradient(-45deg, rgba(255,43,43,0.05) 0, rgba(255,43,43,0.05) 1px, transparent 1px, transparent 4px)" }} />
+             {/* Content Block */}
+             <div className="w-full h-full border border-white/10 opacity-60 flex flex-col p-2.5 font-mono text-[7px] text-[#ff2b2b] leading-tight overflow-hidden" style={{ background: "repeating-linear-gradient(-45deg, rgba(255,43,43,0.02) 0, rgba(255,43,43,0.02) 1px, transparent 1px, transparent 4px)" }}>
+                <span className="opacity-80 font-bold mb-1 text-[#e8e8e8] tracking-widest leading-none border-b border-[#ff2b2b]/30 pb-1">KERNEL_PANIC</span>
+                <span className="text-[6px] opacity-60 mt-1 mb-1 font-bold">FATAL_EXC AT 0x0000</span>
+                <div className="flex flex-col gap-[2px] text-[5px] tracking-widest text-[#ff2b2b]/60 mt-1">
+                   <span>Call Trace:</span>
+                   <span>[&lt;ffff&gt;] dump_trace+0x5d</span>
+                   <span>[&lt;ffff&gt;] show_trace+0x4e</span>
+                   <span>[&lt;ffff&gt;] dump_stack+0x45</span>
+                   <span>[&lt;ffff&gt;] panic+0xc8/0x1fd</span>
+                   <span>[&lt;ffff&gt;] kthread+0xf8/0x130</span>
+                   <span className="opacity-50 mt-1">---[ end trace ]---</span>
+                </div>
+                <div className="mt-auto flex justify-between text-[6px] uppercase font-bold text-[#ff2b2b]">
+                  <span>CORE_DUMPED</span>
+                  <span className="animate-pulse">REBOOTING</span>
+                </div>
+             </div>
              <div className="absolute -bottom-6 left-0 font-mono text-[9px] tracking-[0.3em] text-[#ff2b2b]/40">
                SYSTEM_DUMP.bin
              </div>
