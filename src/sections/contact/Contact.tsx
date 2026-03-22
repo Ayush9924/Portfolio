@@ -10,6 +10,7 @@
  */
 
 import { useEffect, useRef } from "react";
+import Magnetic from "@/components/ui/Magnetic";
 
 export default function Contact() {
   const bgTextRef = useRef<HTMLSpanElement>(null);
@@ -116,19 +117,21 @@ export default function Contact() {
         </div>
 
         {/* INITIATE CONTACT button */}
-        <button
-          className="group relative overflow-hidden border border-white/[0.12] bg-transparent transition-all hover:border-white/25 active:scale-[0.98]"
-          style={{
-            marginTop: 36,
-            padding: "16px 48px",
-            cursor: "crosshair",
-          }}
-        >
-          <span className="relative z-10 font-mono text-[12px] tracking-[0.22em] text-white/75 transition-colors group-hover:text-white">
-            INITIATE CONTACT
-          </span>
-          <div className="absolute inset-0 bg-white/[0.02] opacity-0 transition-opacity group-hover:opacity-100" />
-        </button>
+        <Magnetic>
+          <button
+            className="group relative overflow-hidden border border-white/[0.12] bg-transparent transition-all hover:border-white/25 active:scale-[0.98]"
+            style={{
+              marginTop: 36,
+              padding: "16px 48px",
+              cursor: "crosshair",
+            }}
+          >
+            <span className="relative z-10 font-mono text-[12px] tracking-[0.22em] text-white/75 transition-colors group-hover:text-white">
+              INITIATE CONTACT
+            </span>
+            <div className="absolute inset-0 bg-white/[0.02] opacity-0 transition-opacity group-hover:opacity-100" />
+          </button>
+        </Magnetic>
 
         {/* Social links */}
         <div

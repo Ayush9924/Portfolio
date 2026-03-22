@@ -27,10 +27,30 @@ export default function Hero() {
         delay: 0.2
       });
 
+      // Create high-performance tracking logic for mouse parallax
+      const xToBg = gsap.quickTo(".parallax-bg", "x", { duration: 0.8, ease: "power3.out" });
+      const yToBg = gsap.quickTo(".parallax-bg", "y", { duration: 0.8, ease: "power3.out" });
+      const xToText = gsap.quickTo(titleRef.current, "x", { duration: 1.2, ease: "power3.out" });
+      const yToText = gsap.quickTo(titleRef.current, "y", { duration: 1.2, ease: "power3.out" });
+
+      const handleMouseMove = (e: MouseEvent) => {
+        if (!wrapRef.current) return;
+        const { left, top, width, height } = wrapRef.current.getBoundingClientRect();
+        // Calculate normalized offset from center (-1 to 1)
+        const x = (e.clientX - left - width / 2) / (width / 2);
+        const y = (e.clientY - top - height / 2) / (height / 2);
+        xToBg(x * -20);
+        yToBg(y * -20);
+        xToText(x * 15);
+        yToText(y * 15);
+      };
+
+      window.addEventListener("mousemove", handleMouseMove);
+
       tl
         .fromTo(scanRef.current, { scaleX: 0 }, { scaleX: 1, duration: 0.9, transformOrigin: "left center" })
         .fromTo(badgeRef.current, { opacity: 0, y: -10 }, { opacity: 1, y: 0, duration: 0.5 }, "-=0.4")
-        .fromTo(titleRef.current, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.7 }, "-=0.3")
+        .fromTo(".name-char", { opacity: 0, y: 24, rotationX: 90 }, { opacity: 1, y: 0, rotationX: 0, duration: 0.4, stagger: 0.05, ease: "back.out(1.7)" }, "-=0.3")
         .fromTo(descRef.current, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.5 }, "-=0.3")
         .fromTo(leftRef.current, { opacity: 0, x: -16 }, { opacity: 1, x: 0, duration: 0.5 }, "-=0.4")
         .fromTo(rightRef.current, { opacity: 0, x: 16 }, { opacity: 1, x: 0, duration: 0.5 }, "<")
@@ -55,10 +75,11 @@ export default function Hero() {
         }
       );
 
+      return () => {
+        window.removeEventListener("mousemove", handleMouseMove);
+        ctx.revert();
+      };
     }, wrapRef);
-
-    return () => ctx.revert();
-
   }, []);
 
   return (
@@ -75,7 +96,7 @@ export default function Hero() {
       {/* Noise */}
 
       <div
-        className="pointer-events-none absolute inset-0"
+        className="parallax-bg pointer-events-none absolute inset-[-5%] w-[110%] h-[110%]"
         style={{
           backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='1' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E")`,
           backgroundSize: "180px 180px",
@@ -187,13 +208,12 @@ export default function Hero() {
           ref={titleRef}
           className="select-none text-center"
           style={{
-            opacity: 0,
             width: "100%",
             letterSpacing: "-0.02em",
             lineHeight: "0.83"
           }}
         >
-
+          {/* Name Arrays mapped for stagger animation */}
           <h1
             className="text-[clamp(96px,21vh,320px)] max-md:text-[clamp(44px,14vw,90px)]"
             style={{
@@ -201,10 +221,15 @@ export default function Hero() {
               fontWeight: 900,
               color: "#e8e8e8",
               textTransform: "uppercase",
-              textShadow: "0 2px 40px rgba(255,255,255,0.08),0 0 80px rgba(255,43,43,0.06)"
+              textShadow: "0 2px 40px rgba(255,255,255,0.08),0 0 80px rgba(255,43,43,0.06)",
+              perspective: "1000px"
             }}
           >
-            KUMAR
+            {"KUMAR".split("").map((char, i) => (
+              <span key={`k-${i}`} className="name-char inline-block" style={{ transformOrigin: "50% 50% -50px" }}>
+                {char}
+              </span>
+            ))}
           </h1>
 
           <h1
@@ -214,10 +239,15 @@ export default function Hero() {
               fontWeight: 900,
               color: "#e8e8e8",
               textTransform: "uppercase",
-              textShadow: "0 2px 40px rgba(255,255,255,0.08),0 0 80px rgba(255,43,43,0.06)"
+              textShadow: "0 2px 40px rgba(255,255,255,0.08),0 0 80px rgba(255,43,43,0.06)",
+              perspective: "1000px"
             }}
           >
-            AYUSH
+            {"AYUSH".split("").map((char, i) => (
+              <span key={`a-${i}`} className="name-char inline-block" style={{ transformOrigin: "50% 50% -50px" }}>
+                {char}
+              </span>
+            ))}
           </h1>
 
         </div>

@@ -3,6 +3,8 @@ import { Space_Mono, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import GridOverlay from "@/components/ui/GridOverlay";
 import HudChrome from "@/components/ui/HudChrome";
+import SmoothScroll from "@/components/layout/SmoothScroll";
+import CustomCursor from "@/components/ui/CustomCursor";
 
 /**
  * Space Mono — canonical terminal typeface.
@@ -58,6 +60,8 @@ export default function RootLayout({
          * HudChrome — fixed telemetry corners (z-[9999])
          * Sits above all page content; persists across all routes.
          */}
+        <CustomCursor />
+        <SmoothScroll />
         <GridOverlay />
         <HudChrome />
         {children}

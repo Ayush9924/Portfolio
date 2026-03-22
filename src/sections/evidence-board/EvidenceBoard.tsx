@@ -29,7 +29,19 @@ export default function EvidenceBoard() {
         if (cards.length > 0) {
           gsap.fromTo(cards,
             { opacity: 0, y: 40 },
-            { opacity: 1, y: 0, duration: 0.6, ease: "power3.out", stagger: 0.08, scrollTrigger: { trigger: trackRef.current, start: "top 90%", once: true } }
+            { 
+              opacity: 1, 
+              y: 0, 
+              duration: 0.6, 
+              ease: "power2.out", 
+              stagger: 0.1, 
+              scrollTrigger: { 
+                trigger: trackRef.current, 
+                start: "top 95%", 
+                end: "top 60%", 
+                scrub: 1.2 
+              } 
+            }
           );
         }
       }

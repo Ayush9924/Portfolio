@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Magnetic from "@/components/ui/Magnetic";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -191,26 +192,28 @@ export default function SubjectProfile() {
 
             {/* Report header */}
             <div className="flex items-center justify-between max-md:flex-col max-md:items-start" style={{ borderBottom: "1px solid rgba(255,255,255,0.1)", paddingBottom: "18px", marginBottom: "-8px" }}>
-              <p className="text-[12px] uppercase tracking-[0.32em] text-[#ff2b2b] font-bold">COMPETENCE_ANALYSIS_REPORT</p>
-              <a 
-                href="/CV_12310601.pdf" 
-                download="Kumar_Ayush_CV.pdf"
-                className="group flex items-center gap-2 text-[11px] uppercase tracking-[0.2em] transition-colors duration-300 text-[#ff2b2b] hover:text-white cursor-crosshair max-md:mt-2" 
-                title="Download CV"
-              >
-                <div className="relative flex items-center justify-center w-4 h-4 border border-current opacity-70 group-hover:opacity-100 transition-opacity">
-                  <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="square">
-                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                    <polyline points="7 10 12 15 17 10"></polyline>
-                    <line x1="12" y1="15" x2="12" y2="3"></line>
-                  </svg>
-                </div>
-                <span>[ EXTRACT_CV_DOSSIER ]</span>
-              </a>
+              <p className="text-[13px] uppercase tracking-[0.32em] text-[#ff2b2b] font-bold">COMPETENCE_ANALYSIS_REPORT</p>
+              <Magnetic>
+                <a 
+                  href="/CV_12310601.pdf" 
+                  download="Kumar_Ayush_CV.pdf"
+                  className="group flex items-center gap-2 text-[11px] uppercase tracking-[0.2em] transition-colors duration-300 text-[#ff2b2b] hover:text-white cursor-crosshair max-md:mt-2" 
+                  title="Download CV"
+                >
+                  <div className="relative flex items-center justify-center w-4 h-4 border border-current opacity-70 group-hover:opacity-100 transition-opacity">
+                    <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="square">
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                      <polyline points="7 10 12 15 17 10"></polyline>
+                      <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                  </div>
+                  <span>[ EXTRACT_CV_DOSSIER ]</span>
+                </a>
+              </Magnetic>
             </div>
 
             {/* Bio */}
-            <p className="text-[18px] leading-[1.8]" style={{ color: "rgba(232,232,232,0.85)" }}>
+            <p className="text-[16px] leading-[1.8]" style={{ color: "rgba(232,232,232,0.85)" }}>
               Hybrid developer obsessed with the fusion of{" "}
               <span
                 className="text-white font-medium"
