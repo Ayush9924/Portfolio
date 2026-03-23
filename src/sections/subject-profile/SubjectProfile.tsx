@@ -158,7 +158,7 @@ export default function SubjectProfile() {
             <div className="grid grid-cols-2 gap-x-4 gap-y-5 pt-1">
               {[
                 { label: "CLASS",    value: "DEV_FULLSTACK" },
-                { label: "XP_LEVEL", value: "MASTER_DEGREE" },
+                { label: "XP_LEVEL", value: "BACHELOR_DEGREE" },
                 { label: "LANG_1",   value: "HI (Native)" },
                 { label: "LANG_2",   value: "EN (Fluent)" },
               ].map(({ label, value }) => (
